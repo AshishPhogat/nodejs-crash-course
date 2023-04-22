@@ -1,0 +1,28 @@
+{
+  "name": "js-crash-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "nodemon": "^2.0.22"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AshishPhogat/nodejs-crash-course.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AshishPhogat/nodejs-crash-course/issues"
+  },
+  "homepage": "https://github.com/AshishPhogat/nodejs-crash-course#readme"
+}
