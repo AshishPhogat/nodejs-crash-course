@@ -19,7 +19,6 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/about',(req,res)=>{
-    console.log(req.url);
     res.render('about',{title : 'About'});
 })
 
