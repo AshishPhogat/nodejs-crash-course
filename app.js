@@ -7,8 +7,10 @@ const app = express();
 app.set('view engine','ejs');
 // app.set('views','myviews'); ->to set a diff views folder other than the default 'views'
 
-
+//middleware & static file
 app.use(morgan('dev'));
+
+app.use(express.static('public'));
 
 //routes
 app.get('/',(req,res)=>{
