@@ -1,6 +1,5 @@
 const express = require('express');
-const fs = require('fs');
-
+const morgan = require('morgan');
 // express app
 const app = express();
 
@@ -8,20 +7,10 @@ const app = express();
 app.set('view engine','ejs');
 // app.set('views','myviews'); ->to set a diff views folder other than the default 'views'
 
-//middlewares
-app.use((req,res,next)=>{
-    console.log('new request mad');
-    console.log('host: ', req.hostname);
-    console.log('path: ', req.path);
-    console.log('method', req.method);
-    next();
-});
 
-app.use((req,res,next)=>{
-    console.log('in the next middleware');
-    next();
-});
+app.use(morgan('dev'));
 
+//routes
 app.get('/',(req,res)=>{
     const blogs = [
         {title:'yoshi finds eggs' , snippet:'hello ji'},
