@@ -7,10 +7,11 @@ const app = express();
 
 //CONNECT TO MONGODB
 const dbURI = "mongodb+srv://ashishphogug20:788zipvkn3Wttk1A@cluster0.qll3ru3.mongodb.net/blogs?retryWrites=true&w=majority"
-mongoose.connect(dbURI,{useNewUrlParser: true,useUnifiedTopology: true}).then((result)=>{console.log("database connection successful")
-   app.listen(3000,()=>{
-    console.log('server running on the port 3000');
-})
+mongoose.connect(dbURI,{useNewUrlParser: true,useUnifiedTopology: true})
+.then((result)=>{
+    console.log("database connection successful");
+    app.listen(3000,()=>{
+    console.log('server running on the port 3000');})
 }).catch((err)=>{console.log(err)});
 
 //register view engine
@@ -21,16 +22,11 @@ app.set('view engine','ejs');
 app.use(morgan('dev'));
 
 app.use(express.static('public'));
+app.use(express.urlencoded({extended : true}));
 
 //routes
 app.get('/',(req,res)=>{
-    const blogs = [
-        {title:'yoshi finds eggs' , snippet:'hello ji'},
-        {title: 'Mario finds stars',snippet:'stars mille mujhe'},
-        {title: 'How to defeat browser',snippet:'the net ninja crash course karo'}
-    ];
-
-    res.render('index',{title : 'Home',blogs});
+    res.redirect('/blogs');
 })
 
 app.get('/about',(req,res)=>{
@@ -57,25 +53,49 @@ app.get('/add-blog',(req,res)=>{
 
 });
 
+
+
 //get all blogs
-app.get('/all-blogs',(req,res)=>{
+app.get('/blogs',(req,res)=>{
     Blog.find().then((result)=>{
-        res.send(result);
+       res.render('index',{title: 'all-blogs',blogs: result});
     }).catch((err)=>{
         console.log(err);
     })
 
 });
 
+app.post('/blogs',(req,res)=>{
+    // console.log(req.body);
+    const newblog = new Blog({...req.body});
+    newblog.save().then((result)=>{
+        res.redirect('/blogs');
+    }).catch((err)=>{
+        console.log(err);
+    })
+});
+
 //single blog by id
 app.get('/single-blog/:id',(req,res)=>{
     Blog.findById(req.params.id).then((result)=>{
-        res.send({result});
+        console.log(result);
+        res.render('details',{title: 'Blog details',blog: result})
     }).catch((err)=>{
         console.log(err);
     });
 })
 
+
+app.delete('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+    Blog.findByIdAndDelete(id).then((result)=>{
+        const obj = {redirect : '/blogs'};
+        console.log(obj);
+        res.json(obj);
+    }).catch((err)=>{
+        console.log(err);
+    })
+});
 
 //404 page
 app.use((req,res)=>{
